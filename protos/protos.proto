@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "github.com/nivista/chat/.gen/pb";
+
+message SendMessage {
+    string text = 1;
+}
+
+message RecieveMessage {
+    string text = 1;
+    string sender = 2;
+}
+
+service Chat {
+    rpc Chat(stream SendMessage) returns (stream RecieveMessage) {}
+}
