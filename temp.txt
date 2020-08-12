@@ -1,0 +1,18 @@
+panic: runtime error: slice bounds out of range [1:0]
+
+goroutine 18 [running]:
+github.com/nivista/chat/server/db.(*db).GetOldEvents(0xc0001b6100, 0xb95880, 0xc000280210, 0xc00028a0f0, 0xa63300, 0xc0002ba000, 0xb9b0c0)
+	/home/yaniv/go/src/github.com/nivista/chat/server/db/db.go:329 +0x2bd
+main.(*server).GetOldEvents(0xc0001b6110, 0xb95880, 0xc000280210, 0xc00028a0f0, 0xc0001b6110, 0xc000280210, 0xc000057ba0)
+	/home/yaniv/go/src/github.com/nivista/chat/server/main.go:96 +0x51
+github.com/nivista/chat/.gen/pb._Chat_GetOldEvents_Handler(0xa63300, 0xc0001b6110, 0xb95880, 0xc000280210, 0xc0002ba060, 0x0, 0xb95880, 0xc000280210, 0xc0002c4000, 0x28)
+	/home/yaniv/go/src/github.com/nivista/chat/.gen/pb/protos.pb.go:1855 +0x217
+google.golang.org/grpc.(*Server).processUnaryRPC(0xc000165340, 0xb9c200, 0xc0001f2000, 0xc0002bc000, 0xc000179050, 0xfe97b8, 0x0, 0x0, 0x0)
+	/home/yaniv/go/pkg/mod/google.golang.org/grpc@v1.30.0/server.go:1171 +0x50a
+google.golang.org/grpc.(*Server).handleStream(0xc000165340, 0xb9c200, 0xc0001f2000, 0xc0002bc000, 0x0)
+	/home/yaniv/go/pkg/mod/google.golang.org/grpc@v1.30.0/server.go:1494 +0xccd
+google.golang.org/grpc.(*Server).serveStreams.func1.2(0xc000025a00, 0xc000165340, 0xb9c200, 0xc0001f2000, 0xc0002bc000)
+	/home/yaniv/go/pkg/mod/google.golang.org/grpc@v1.30.0/server.go:834 +0xa1
+created by google.golang.org/grpc.(*Server).serveStreams.func1
+	/home/yaniv/go/pkg/mod/google.golang.org/grpc@v1.30.0/server.go:832 +0x204
+exit status 2

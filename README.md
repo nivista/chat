@@ -1,5 +1,6 @@
 # Chat
 This chat application demonstrates chat using gRPC and golang.
+It uses redis as a database.
 Generated code is uploaded for convenience.
 
 ## Usage

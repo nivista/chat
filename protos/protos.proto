@@ -2,15 +2,107 @@ syntax = "proto3";
 
 option go_package = "github.com/nivista/chat/.gen/pb";
 
-message SendMessage {
-    string text = 1;
-}
-
-message RecieveMessage {
-    string text = 1;
-    string sender = 2;
-}
-
 service Chat {
-    rpc Chat(stream SendMessage) returns (stream RecieveMessage) {}
+    rpc CreateConversation (CreateConversationRequest) returns (CreateConversationResponse);
+
+    rpc GetConversations (GetConversationsRequest) returns (stream GetConversationsResponse);
+
+    rpc GetConversationMembers (GetConversationMembersRequest) returns (stream GetConversationMembersResponse);
+    
+    rpc GetOldEvents (GetOldEventsRequest) returns (GetOldEventsResponse);
+
+    rpc GetNewEvents (GetNewEventsRequest) returns (stream GetNewEventsResponse);
+
+    rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
+
+    rpc AddToConversation (AddToConversationRequest) returns (AddToConversationResponse);
+
+    rpc RemoveFromConversation (RemoveFromConversationRequest) returns (RemoveFromConversationResponse);    
 }
+
+
+message CreateConversationRequest {
+    string name = 1;
+
+    //should not include self
+    repeated string members = 2;
+}
+
+message CreateConversationResponse {
+    string uuid = 1;
+}
+
+message GetConversationsRequest {}
+
+message GetConversationsResponse {
+    message ConversationHeader {
+        string uuid = 1;
+        string name = 2;
+    }
+    repeated ConversationHeader headers = 1;
+}
+
+message GetConversationMembersRequest {
+    string conv_uuid = 1;
+}
+
+message GetConversationMembersResponse {
+    message ConversationMember {
+        string name = 1;
+    }
+    repeated ConversationMember members = 1;
+}
+
+message GetOldEventsRequest {
+    string conv_uuid = 1;
+    string earliest_event_logical_timestamp = 2;
+    int32 count = 3;
+}
+
+message GetOldEventsResponse {
+    repeated ChatEvent events = 1;
+}
+ 
+message GetNewEventsRequest {
+    string conv_uuid = 1;
+    string latest_event_logical_timestamp = 2;
+}
+
+message GetNewEventsResponse {
+    ChatEvent event = 1;
+}
+
+message ChatEvent {
+    string logical_timestamp = 1;
+    string sender = 2;
+    EventRequest event_request = 3;
+}
+
+message EventRequest {
+    oneof event_request {
+        CreateConversationRequest create_conversation = 3;
+        SendMessageRequest send_message = 4;
+        AddToConversationRequest add_to_conversation = 5;
+        RemoveFromConversationRequest remove_from_conversation = 6;
+    }
+}
+message SendMessageRequest {
+    string conv_uuid = 1;
+    string text = 2;
+}
+
+message SendMessageResponse {}
+
+message AddToConversationRequest {
+    string conv_uuid = 1;
+    repeated string users = 2;
+}
+
+message AddToConversationResponse {}
+
+message RemoveFromConversationRequest {
+    string conv_uuid = 1;
+    repeated string users = 2;
+}
+
+message RemoveFromConversationResponse {}
